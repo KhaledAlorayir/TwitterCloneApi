@@ -2,6 +2,7 @@ package com.example.twitterapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -10,7 +11,14 @@ import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class AppUser {
+    public AppUser(String username, String email, String password, Role role) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

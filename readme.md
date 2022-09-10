@@ -5,13 +5,15 @@
   * [x] setup Spring security 
   * [x] setup swagger
   * [x] database desgin
+  * [x] JWT Auth
 
   ### Routes
 #### auth
-* [] sign up
-* [] sign in
+* [x] sign up
+* [x] sign in
+* [x] getMyInfo
+
 #### User
-* [] getMyInfo
 * [] change username
 * [] Search Users by username
 * [] get User by id
@@ -20,6 +22,7 @@
 * [] getMyFollowing
 * [] get user followers
 * [] get user following
+
 #### Tweet
 * [] make a tweet
 * [] delete a tweet

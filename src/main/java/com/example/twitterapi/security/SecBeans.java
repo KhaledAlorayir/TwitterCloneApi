@@ -1,31 +1,29 @@
 package com.example.twitterapi.security;
 
+import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 public class SecBeans {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .cors()
-                .and()
-                .csrf()
-                .disable()
-                .authorizeHttpRequests((auth) -> {
-                    try{
-                        auth
-                                .anyRequest().permitAll();
+    PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+    }
 
-                    }catch (Exception e){
-                        throw new RuntimeException(e);
-                    }
-                }).httpBasic(Customizer.withDefaults());
-        return http.build();
+    @Bean
+    @SneakyThrows
+    AuthenticationManager authenticationManager(AuthenticationConfiguration configuration){
+        return configuration.getAuthenticationManager();
     }
 
 }
