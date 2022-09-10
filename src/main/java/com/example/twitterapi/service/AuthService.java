@@ -10,8 +10,7 @@ import com.example.twitterapi.entity.AppUser;
 import com.example.twitterapi.entity.Role;
 import com.example.twitterapi.exception.BadCredException;
 import com.example.twitterapi.exception.ExistsException;
-import com.example.twitterapi.repo.RoleRepo;
-import com.example.twitterapi.repo.UserRepo;
+import com.example.twitterapi.repo.*;
 import com.example.twitterapi.shared.Helper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +31,8 @@ import java.util.Map;
 public class AuthService {
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
+    private final UserService userService;
+
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
     @Value("${jwt_secret}")
@@ -50,7 +51,7 @@ public class AuthService {
         Role user_role = roleRepo.getReferenceById((long)1);
         AppUser user = new AppUser(signupForm.getUsername(),signupForm.getEmail(),encoder.encode(signupForm.getPassword()),user_role);
         userRepo.save(user);
-        return new UserDTO(user.getId(),user.getUsername(),user.getEmail(),user.getCreated_at(),user.getRole().getId());
+        return new UserDTO(user.getId(),user.getUsername(),user.getEmail(),user.getCreated_at(),user.getRole().getId(),(long)0,(long)0,(long)0,(long)0);
     }
 
     public TokenDTO signin(SigninForm signinForm) {
@@ -76,8 +77,9 @@ public class AuthService {
 
     public UserDTO getMyInfo() {
         AppUser user = userRepo.findById(Helper.getAuth()).get();
-        return new UserDTO(user.getId(),user.getUsername(),user.getEmail(),user.getCreated_at(),user.getRole().getId());
+        return userService.getUserDTO(user);
     }
+
 
 
 

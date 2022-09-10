@@ -14,9 +14,9 @@
 * [x] getMyInfo
 
 #### User
-* [] change username
-* [] Search Users by username
-* [] get User by id
+* [x] change username
+* [x] Search Users by username
+* [x] get User by id
 * [] follow/unfollow user
 * [] getMyFollowers
 * [] getMyFollowing
