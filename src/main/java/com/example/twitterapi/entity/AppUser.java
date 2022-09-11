@@ -26,8 +26,13 @@ public class AppUser {
     private String username;
     @Column(unique = true, nullable = false)
     private String email;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String password;
+
+    @Column(length = 300)
+    private String bio = "";
+    private String img_url = "https://www.freeiconspng.com/uploads/clipart--person-icon--cliparts-15.png";
+
     @CreationTimestamp
     private Date created_at;
     @ManyToOne(optional = false)

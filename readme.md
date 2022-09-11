@@ -17,9 +17,13 @@
 * [x] change username
 * [x] Search Users by username
 * [x] get User by id
-* [] follow/unfollow user
-* [] getMyFollowers
-* [] getMyFollowing
+* [x] change bio
+* [] change img
+
+#### follows
+* [x] follow/unfollow user
+* [x] getMyFollowers
+* [x] getMyFollowing
 * [] get user followers
 * [] get user following
 
@@ -30,10 +34,12 @@
 * [] get tweet by id
 * [] get a user tweets
 * [] get following tweets
+* [] response to tweet
+
+### like
 * [] like/unlike tweet
 * [] getMyLikes
 * [] getUserLikes
-* [] response to tweet
 
 
 

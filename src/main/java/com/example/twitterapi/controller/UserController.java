@@ -1,9 +1,6 @@
 package com.example.twitterapi.controller;
 
-import com.example.twitterapi.dto.Pagination;
-import com.example.twitterapi.dto.UserDTO;
-import com.example.twitterapi.dto.UserListDTO;
-import com.example.twitterapi.dto.UsernameDTO;
+import com.example.twitterapi.dto.*;
 import com.example.twitterapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +29,11 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserByid(@PathVariable(name = "id") long id) {
         return ResponseEntity.ok(userService.getUserbyID(id));
+    }
+
+    @PatchMapping(path = "/bio")
+    public ResponseEntity<UserDTO> changeBio(@Valid @RequestBody BioDTO bioDTO){
+        return ResponseEntity.ok(userService.changBio(bioDTO));
     }
 
 }

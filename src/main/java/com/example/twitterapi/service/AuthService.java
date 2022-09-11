@@ -51,7 +51,7 @@ public class AuthService {
         Role user_role = roleRepo.getReferenceById((long)1);
         AppUser user = new AppUser(signupForm.getUsername(),signupForm.getEmail(),encoder.encode(signupForm.getPassword()),user_role);
         userRepo.save(user);
-        return new UserDTO(user.getId(),user.getUsername(),user.getEmail(),user.getCreated_at(),user.getRole().getId(),(long)0,(long)0,(long)0,(long)0);
+        return new UserDTO(user.getId(),user.getUsername(),user.getEmail(),user.getCreated_at(),user.getBio(),user.getImg_url(),user.getRole().getId(),(long)0,(long)0,(long)0,(long)0);
     }
 
     public TokenDTO signin(SigninForm signinForm) {

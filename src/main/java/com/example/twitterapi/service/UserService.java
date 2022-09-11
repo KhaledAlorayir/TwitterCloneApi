@@ -1,9 +1,6 @@
 package com.example.twitterapi.service;
 
-import com.example.twitterapi.dto.Pagination;
-import com.example.twitterapi.dto.UserDTO;
-import com.example.twitterapi.dto.UserListDTO;
-import com.example.twitterapi.dto.UsernameDTO;
+import com.example.twitterapi.dto.*;
 import com.example.twitterapi.entity.AppUser;
 import com.example.twitterapi.exception.DoesntExistsException;
 import com.example.twitterapi.exception.ExistsException;
@@ -34,7 +31,7 @@ public class UserService {
         Long following_count = followsRepo.countByFollower(user);
         Long tweets_count = tweetRepo.countByOwner(user);
         Long likes_count = likeRepo.countByUser(user);
-        return new UserDTO(user.getId(),user.getUsername(),user.getEmail(),user.getCreated_at(),user.getRole().getId(), followers_count,following_count,tweets_count,likes_count);
+        return new UserDTO(user.getId(),user.getUsername(),user.getEmail(),user.getCreated_at(),user.getBio(),user.getImg_url(),user.getRole().getId(), followers_count,following_count,tweets_count,likes_count);
     }
     public UserDTO changeUsername(UsernameDTO usernameDTO){
         userRepo.findByUsername(usernameDTO.getUsername()).ifPresent(user -> {
@@ -54,7 +51,7 @@ public class UserService {
         long result_count = userRepo.countByUsernameContaining(usernameQuery);
         int page_count = (int)Math.ceil((double) result_count/PAGE_LIMIT);
 
-        if(page_number < 0 || page_number >= page_count){
+        if(page_number < 0 || (page_number >= page_count && page_count != 0)){
             throw new InvalidPageException();
         }
 
@@ -68,6 +65,13 @@ public class UserService {
 
     public UserDTO getUserbyID(long uid) {
         AppUser user = userRepo.findById(uid).orElseThrow(() -> new DoesntExistsException());
+        return getUserDTO(user);
+    }
+
+    public UserDTO changBio(BioDTO bioDTO){
+        AppUser user = userRepo.findById(Helper.getAuth()).get();
+        user.setBio(bioDTO.getBio());
+        userRepo.save(user);
         return getUserDTO(user);
     }
 

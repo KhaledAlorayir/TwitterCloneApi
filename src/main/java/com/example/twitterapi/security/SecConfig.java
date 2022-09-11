@@ -36,6 +36,7 @@ public class SecConfig {
                                 .antMatchers(HttpMethod.GET,"/api/auth").hasAuthority("USER")
                                 .antMatchers(HttpMethod.GET,"/api/user/**").permitAll()
                                 .antMatchers("/api/user","/api/user/**").hasAuthority("USER")
+                                .antMatchers("/api/follow","/api/follow/**").hasAuthority("USER")
                                 .anyRequest().permitAll()
                                 .and()
                                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

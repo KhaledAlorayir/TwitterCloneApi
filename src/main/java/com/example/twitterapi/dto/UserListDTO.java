@@ -7,4 +7,5 @@ import lombok.Data;
 public class UserListDTO {
     private Long id;
     private String username;
+    private String img_url;
 }
