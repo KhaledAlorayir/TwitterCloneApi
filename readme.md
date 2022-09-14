@@ -24,17 +24,18 @@
 * [x] follow/unfollow user
 * [x] getMyFollowers
 * [x] getMyFollowing
-* [] get user followers
-* [] get user following
+* [x] get user followers
+* [x] get user following
 
 #### Tweet
-* [] make a tweet
-* [] delete a tweet
-* [] getMyTweets
-* [] get tweet by id
+* [x] make a tweet
+* [x] delete a tweet
+* [x] getMyTweets
+* [x] get tweet by id
 * [] get a user tweets
 * [] get following tweets
 * [] response to tweet
+* [] get tweet responses
 
 ### like
 * [] like/unlike tweet

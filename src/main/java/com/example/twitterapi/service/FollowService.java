@@ -91,7 +91,40 @@ public class FollowService {
 
     }
 
-    //TODO secConfig for the next 2 routes
+    public Pagination<UserListDTO> getUserFollowers(long uid, int page_number) {
+        page_number -= 1;
+        AppUser u = userRepo.findById(uid).orElseThrow(() -> new DoesntExistsException());
+
+        long result_count = followsRepo.countByFollowed(u);
+        int page_count = (int)Math.ceil((double) result_count/PAGE_LIMIT);
+
+        if(page_number < 0 || (page_number >= page_count && page_count != 0)){
+            throw new InvalidPageException();
+        }
+
+        Pageable page = PageRequest.of(page_number,PAGE_LIMIT);
+        List<Follows> result = followsRepo.findByFollowed(u,page);
+        List<UserListDTO> followers = result.stream().map(follows -> mapper.map(follows.getFollower(),UserListDTO.class)).collect(Collectors.toList());
+
+        return new Pagination<>(followers,page_number+1,page_count);
+    }
+
+    public Pagination<UserListDTO> getUserFollowing(long uid, int page_number){
+        page_number -= 1;
+
+        AppUser u = userRepo.findById(uid).orElseThrow(() -> new DoesntExistsException());
+        long result_count = followsRepo.countByFollower(u);
+        int page_count = (int)Math.ceil((double) result_count/PAGE_LIMIT);
+
+        if(page_number < 0 || (page_number >= page_count && page_count != 0)){
+            throw new InvalidPageException();
+        }
+
+        Pageable page = PageRequest.of(page_number,PAGE_LIMIT);
+        List<Follows> result = followsRepo.findByFollower(u,page);
+        List<UserListDTO> following = result.stream().map(follows -> mapper.map(follows.getFollowed(),UserListDTO.class)).collect(Collectors.toList());
+        return new Pagination<>(following,page_number+1,page_count);
+    }
 
 
 }

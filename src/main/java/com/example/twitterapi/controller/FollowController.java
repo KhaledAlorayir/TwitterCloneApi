@@ -32,5 +32,14 @@ public class FollowController {
     public ResponseEntity<Pagination<UserListDTO>> getMyFollowing(@RequestParam(defaultValue = "1") int page){
         return ResponseEntity.ok(followService.getMyFollowing(page));
     }
+    @GetMapping("/{id}/followers")
+    public ResponseEntity<Pagination<UserListDTO>> getUserFollowers(@PathVariable long id,@RequestParam(defaultValue = "1") int page){
+        return ResponseEntity.ok(followService.getUserFollowers(id,page));
+    }
+
+    @GetMapping("/{id}/following")
+    public ResponseEntity<Pagination<UserListDTO>> getUserFollowing(@PathVariable long id,@RequestParam(defaultValue = "1") int page){
+        return ResponseEntity.ok(followService.getUserFollowing(id,page));
+    }
 
 }

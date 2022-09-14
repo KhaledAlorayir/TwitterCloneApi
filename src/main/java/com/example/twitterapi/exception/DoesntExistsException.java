@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class DoesntExistsException extends RuntimeException {
     public DoesntExistsException(){
-        super("resource doesn't exists");
+        super("resource doesn't exist");
     }
 }
