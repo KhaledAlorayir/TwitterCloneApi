@@ -15,6 +15,7 @@ public class TweetDTO {
     private String content;
     private UserListDTO owner;
     private Date created_at;
+    private boolean replay;
     private long likes_count;
     private long responses_count;
 }

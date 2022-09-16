@@ -19,5 +19,6 @@ public class Follows {
     @JoinColumn(name = "followed_id")
     private AppUser followed;
     @CreationTimestamp
-    private Date created_at;
+    @Column(name = "created_at")
+    private Date createdAt;
 }

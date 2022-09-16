@@ -32,13 +32,14 @@
 * [x] delete a tweet
 * [x] getMyTweets
 * [x] get tweet by id
-* [] get a user tweets
-* [] get following tweets
-* [] response to tweet
-* [] get tweet responses
+* [x] get a user tweets
+* [x] get following tweets (timeline)
+* [x] response to tweet
+* [x] get tweet responses
 
 ### like
 * [] like/unlike tweet
+* [] get tweet likes
 * [] getMyLikes
 * [] getUserLikes
 

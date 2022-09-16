@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -48,19 +49,16 @@ public class UserService {
     public Pagination<UserListDTO> searchUsers(String usernameQuery,int page_number) {
         page_number -= 1;
 
-        long result_count = userRepo.countByUsernameContaining(usernameQuery);
-        int page_count = (int)Math.ceil((double) result_count/PAGE_LIMIT);
-
-        if(page_number < 0 || (page_number >= page_count && page_count != 0)){
+        if(page_number < 0){
             throw new InvalidPageException();
         }
 
         Pageable page = PageRequest.of(page_number,PAGE_LIMIT);
-        List<AppUser> results = userRepo.findByUsernameContaining(usernameQuery,page);
+        Slice<AppUser> results = userRepo.findByUsernameContaining(usernameQuery,page);
 
 
-        List<UserListDTO> data = Arrays.asList(mapper.map(results,UserListDTO[].class));
-        return new Pagination<>(data,page_number+1,page_count);
+        List<UserListDTO> data = Arrays.asList(mapper.map(results.getContent(),UserListDTO[].class));
+        return new Pagination<>(data,results.hasNext(),results.hasPrevious(),page_number+1);
     }
 
     public UserDTO getUserbyID(long uid) {

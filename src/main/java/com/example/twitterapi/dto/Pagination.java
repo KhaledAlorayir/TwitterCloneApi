@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 public class Pagination<T> {
     private List<T> results;
-    private int current_page;
-    private int page_count;
+    private boolean has_next;
+    private boolean has_prev;
+    private int page_number;
 }

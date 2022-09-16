@@ -12,15 +12,18 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Tweet {
-    public Tweet(String content, AppUser owner) {
+    public Tweet(String content, AppUser owner, boolean replay) {
         this.content = content;
         this.owner = owner;
+        this.replay = replay;
     }
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(nullable = false, length = 280)
     private String content;
+    @Column(nullable = false)
+    private boolean replay;
     @ManyToOne(optional = false)
     @JoinColumn(name = "owner_id")
     private AppUser owner;
@@ -29,6 +32,6 @@ public class Tweet {
     private Date createdAt;
     @OneToMany(mappedBy = "tweet")
     private List<Like> likes;
-    @OneToMany(mappedBy = "replay")
+    @OneToMany(mappedBy = "original")
     private List<Response> responses;
 }

@@ -27,13 +27,33 @@ public class TweetController {
     }
 
     @GetMapping
-    public ResponseEntity<Pagination2<TweetDTO>> getMyTweets(@RequestParam(defaultValue = "1") int page){
+    public ResponseEntity<Pagination<TweetDTO>> getMyTweets(@RequestParam(defaultValue = "1") int page){
         return ResponseEntity.ok(tweetService.getMyTweets(page));
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<TweetDTO> getTweetById(@PathVariable long id){
         return ResponseEntity.ok(tweetService.getTweetById(id));
+    }
+
+    @GetMapping(path = "/{id}/user")
+    public ResponseEntity<Pagination<TweetDTO>> getUserTweets(@PathVariable long id,@RequestParam(defaultValue = "1") int page){
+        return ResponseEntity.ok(tweetService.getUserTweets(id,page));
+    }
+
+    @GetMapping(path = "/timeline")
+    public ResponseEntity<Pagination<TweetDTO>> getTimeline(@RequestParam(defaultValue = "1") int page){
+        return ResponseEntity.ok(tweetService.getTimeline(page));
+    }
+
+    @PostMapping(path = "/{id}")
+    public ResponseEntity<TweetDTO> replayToTweet(@PathVariable long id, @Valid @RequestBody SendTweet sendTweet){
+        return new ResponseEntity<>(tweetService.ReplayToTweet(sendTweet,id),HttpStatus.CREATED);
+    }
+
+    @GetMapping(path = "/{id}/replies")
+    public ResponseEntity<Pagination<TweetDTO>> getTweetReplies(@PathVariable long id,@RequestParam(defaultValue = "1") int page){
+        return ResponseEntity.ok(tweetService.getTweetReplies(id,page));
     }
 
 }
