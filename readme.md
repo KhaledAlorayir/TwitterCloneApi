@@ -36,12 +36,13 @@
 * [x] get following tweets (timeline)
 * [x] response to tweet
 * [x] get tweet responses
+* [x] get original tweet from replay
 
 ### like
-* [] like/unlike tweet
-* [] get tweet likes
-* [] getMyLikes
-* [] getUserLikes
+* [x] like/unlike tweet
+* [x] get tweet likes
+* [x] getMyLikes
+* [x] getUserLikes
 
 
 

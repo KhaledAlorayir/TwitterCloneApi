@@ -18,10 +18,10 @@ public class Response {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "tweet_id")
     private Tweet original;
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "replay_id")
     private Tweet replay;
 }

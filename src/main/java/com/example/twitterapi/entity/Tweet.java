@@ -32,6 +32,6 @@ public class Tweet {
     private Date createdAt;
     @OneToMany(mappedBy = "tweet")
     private List<Like> likes;
-    @OneToMany(mappedBy = "original")
+    @OneToMany(mappedBy = "original", cascade = CascadeType.REMOVE)
     private List<Response> responses;
 }

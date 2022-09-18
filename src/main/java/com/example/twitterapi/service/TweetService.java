@@ -147,6 +147,12 @@ public class TweetService {
        return new Pagination<>(parsed,responses.hasNext(),responses.hasPrevious(),page_number+1);
    }
 
+   public TweetDTO getOriginalTweet(long replay_id){
+        Tweet tweet = tweetRepo.findById(replay_id).orElseThrow(() -> new DoesntExistsException());
+        Response response = resRepo.findByReplay(tweet).orElseThrow(() -> new DoesntExistsException());
+        return getTweetDTO(response.getOriginal(),response.getOriginal().getOwner());
+   }
+
     public TweetDTO getTweetDTO(Tweet tweet, AppUser owner){
         return new TweetDTO(tweet.getId(),tweet.getContent(),new UserListDTO(owner.getId(),owner.getUsername(),owner.getImg_url()),tweet.getCreatedAt(),tweet.isReplay(),likeRepo.countByTweet(tweet),resRepo.countByOriginal(tweet));
     }

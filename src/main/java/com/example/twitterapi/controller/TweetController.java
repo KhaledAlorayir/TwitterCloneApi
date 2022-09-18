@@ -56,4 +56,9 @@ public class TweetController {
         return ResponseEntity.ok(tweetService.getTweetReplies(id,page));
     }
 
+    @GetMapping(path = "/{id}/original")
+    public ResponseEntity<TweetDTO> getOriginalTweet(@PathVariable long id){
+        return ResponseEntity.ok(tweetService.getOriginalTweet(id));
+    }
+
 }
