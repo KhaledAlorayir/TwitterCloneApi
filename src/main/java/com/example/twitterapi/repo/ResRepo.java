@@ -13,4 +13,6 @@ public interface ResRepo extends JpaRepository<Response,Long> {
     Slice<Response> findByOriginal(Tweet tweet, Pageable pageable);
 
     Optional<Response> findByReplay(Tweet tweet);
+
+    void deleteByReplay(Tweet tweet);
 }

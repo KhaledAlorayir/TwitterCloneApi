@@ -30,7 +30,7 @@ public class Tweet {
     @CreationTimestamp
     @Column(name = "created_at")
     private Date createdAt;
-    @OneToMany(mappedBy = "tweet")
+    @OneToMany(mappedBy = "tweet", cascade = CascadeType.REMOVE)
     private List<Like> likes;
     @OneToMany(mappedBy = "original", cascade = CascadeType.REMOVE)
     private List<Response> responses;

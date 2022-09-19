@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,13 +38,19 @@ public class TweetService {
         tweetRepo.save(tweet);
         return new TweetDTO(tweet.getId(),tweet.getContent(),new UserListDTO(user.getId(),user.getUsername(),user.getImg_url()),tweet.getCreatedAt(),false,(long) 0,(long) 0);
     }
-
+    @Transactional
     public Message deleteTweet(long tweetId){
         Tweet tweet = tweetRepo.findById(tweetId).orElseThrow(() -> new DoesntExistsException());
 
         if(tweet.getOwner().getId() != Helper.getAuth()){
             throw new unAuthorizedException();
         }
+
+        if(tweet.isReplay()){
+            resRepo.deleteByReplay(tweet);
+            return new Message("tweet has been deleted");
+        }
+
         tweetRepo.deleteById(tweetId);
         return new Message("tweet has been deleted");
     }
