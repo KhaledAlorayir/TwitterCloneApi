@@ -1,7 +1,9 @@
 package com.example.twitterapi.shared;
 
+import com.example.twitterapi.dto.Message;
 import com.example.twitterapi.dto.ValidationErrorResponse;
 import com.example.twitterapi.dto.Violation;
+import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -39,6 +41,13 @@ import javax.validation.ConstraintViolationException;
                         new Violation(fieldError.getField(), fieldError.getDefaultMessage()));
             }
             return error;
+        }
+
+        @ExceptionHandler(SizeLimitExceededException.class)
+        @ResponseStatus(HttpStatus.BAD_REQUEST)
+        @ResponseBody
+        Message onSizeLimitExceededException(SizeLimitExceededException e) {
+            return new Message("file is too big! the maximum size is 8mb");
         }
 
     }

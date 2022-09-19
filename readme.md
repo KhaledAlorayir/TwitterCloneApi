@@ -18,7 +18,9 @@
 * [x] Search Users by username
 * [x] get User by id
 * [x] change bio
-* [] change img
+* [x] change img via link
+* [x] change img via file
+* [x] serve image
 
 #### follows
 * [x] follow/unfollow user

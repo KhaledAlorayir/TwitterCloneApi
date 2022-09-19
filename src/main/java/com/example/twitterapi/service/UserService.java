@@ -2,9 +2,7 @@ package com.example.twitterapi.service;
 
 import com.example.twitterapi.dto.*;
 import com.example.twitterapi.entity.AppUser;
-import com.example.twitterapi.exception.DoesntExistsException;
-import com.example.twitterapi.exception.ExistsException;
-import com.example.twitterapi.exception.InvalidPageException;
+import com.example.twitterapi.exception.*;
 import com.example.twitterapi.repo.*;
 import com.example.twitterapi.shared.Helper;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +11,19 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +34,9 @@ public class UserService {
     private final TweetRepo tweetRepo;
     private ModelMapper mapper = new ModelMapper();
     private final int PAGE_LIMIT = 10;
+
+    private final Path root = Paths.get("imgs");
+
 
     public UserDTO getUserDTO(AppUser user){
         Long followers_count = followsRepo.countByFollowed(user);
@@ -71,6 +82,51 @@ public class UserService {
         user.setBio(bioDTO.getBio());
         userRepo.save(user);
         return getUserDTO(user);
+    }
+
+    public UserDTO changeImgViaURL(ImgUrl imgUrl){
+        AppUser user = userRepo.findById(Helper.getAuth()).get();
+
+        try {
+            Image image = ImageIO.read(new URL(imgUrl.getImg_url()));
+            if(image == null) {
+                throw new InvalidUrlException();
+            }
+        } catch (IOException e) {
+            throw new InvalidUrlException();
+        }
+        user.setImg_url(imgUrl.getImg_url());
+        userRepo.save(user);
+        return getUserDTO(user);
+    }
+
+    public UserDTO changeImgViaFile(MultipartFile file) {
+        AppUser user = userRepo.findById(Helper.getAuth()).get();
+
+        String[] fileInfo = file.getContentType().split("/");
+
+        if(!fileInfo[0].equals("image") || fileInfo[1].equals("gif")){
+            throw new InvalidFileException();
+        }
+
+        String fileName = UUID.randomUUID().toString()+"."+fileInfo[1];
+        try {
+            file.transferTo(root.resolve(fileName));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        user.setImg_url("http://localhost:8080/api/user/img/"+fileName);
+        return getUserDTO(user);
+    }
+
+    public byte[] getImg(String filename){
+        try {
+            Path path = Paths.get("imgs",filename);
+            byte[] img = Files.readAllBytes(path);
+            return img;
+        } catch (IOException e) {
+            throw new DoesntExistsException();
+        }
     }
 
 }
