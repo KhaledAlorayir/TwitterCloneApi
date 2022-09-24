@@ -1,5 +1,6 @@
 package com.example.twitterapi.controller;
 
+import com.example.twitterapi.dto.FollowsUser;
 import com.example.twitterapi.dto.Message;
 import com.example.twitterapi.dto.Pagination;
 import com.example.twitterapi.dto.UserListDTO;
@@ -40,6 +41,11 @@ public class FollowController {
     @GetMapping("/{id}/following")
     public ResponseEntity<Pagination<UserListDTO>> getUserFollowing(@PathVariable long id,@RequestParam(defaultValue = "1") int page){
         return ResponseEntity.ok(followService.getUserFollowing(id,page));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<FollowsUser> DoIFollowUser(@PathVariable long id){
+        return ResponseEntity.ok(followService.DoIFollow(id));
     }
 
 }

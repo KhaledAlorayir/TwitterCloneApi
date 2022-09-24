@@ -1,5 +1,6 @@
 package com.example.twitterapi.service;
 
+import com.example.twitterapi.dto.FollowsUser;
 import com.example.twitterapi.dto.Message;
 import com.example.twitterapi.dto.Pagination;
 import com.example.twitterapi.dto.UserListDTO;
@@ -116,6 +117,17 @@ public class FollowService {
         Slice<Follows> result = followsRepo.findByFollowerOrderByCreatedAtDesc(u,page);
         List<UserListDTO> following = result.stream().map(follows -> mapper.map(follows.getFollowed(),UserListDTO.class)).collect(Collectors.toList());
         return new Pagination<>(following,result.hasNext(),result.hasPrevious(),page_number+1);
+    }
+
+    public FollowsUser DoIFollow(long uid) {
+        AppUser to = userRepo.findById(uid).orElseThrow(() -> new DoesntExistsException());
+        AppUser from = userRepo.getReferenceById(Helper.getAuth());
+        Optional<Follows> follows = followsRepo.findByFollowerAndFollowed(from,to);
+
+        if(follows.isPresent()){
+            return new FollowsUser(true);
+        }
+        return new FollowsUser(false);
     }
 
 

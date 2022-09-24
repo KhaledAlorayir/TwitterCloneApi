@@ -6,6 +6,7 @@
   * [x] setup swagger
   * [x] database desgin
   * [x] JWT Auth
+  * [x] cors
 
   ### Routes
 #### auth
@@ -28,6 +29,7 @@
 * [x] getMyFollowing
 * [x] get user followers
 * [x] get user following
+* [x] is following user by id
 
 #### Tweet
 * [x] make a tweet
