@@ -1,6 +1,6 @@
 package com.example.twitterapi.service;
 
-import com.example.twitterapi.dto.FollowsUser;
+import com.example.twitterapi.dto.Does;
 import com.example.twitterapi.dto.Message;
 import com.example.twitterapi.dto.Pagination;
 import com.example.twitterapi.dto.UserListDTO;
@@ -19,9 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -119,15 +116,15 @@ public class FollowService {
         return new Pagination<>(following,result.hasNext(),result.hasPrevious(),page_number+1);
     }
 
-    public FollowsUser DoIFollow(long uid) {
+    public Does DoIFollow(long uid) {
         AppUser to = userRepo.findById(uid).orElseThrow(() -> new DoesntExistsException());
         AppUser from = userRepo.getReferenceById(Helper.getAuth());
         Optional<Follows> follows = followsRepo.findByFollowerAndFollowed(from,to);
 
         if(follows.isPresent()){
-            return new FollowsUser(true);
+            return new Does(true);
         }
-        return new FollowsUser(false);
+        return new Does(false);
     }
 
 

@@ -13,6 +13,6 @@ public interface UserRepo extends JpaRepository<AppUser,Long> {
     Optional<AppUser> findByEmail(String email);
     Optional<AppUser> findByUsername(String username);
 
-    Slice<AppUser> findByUsernameContaining(String username, Pageable pageable);
+    Slice<AppUser> findByUsernameContainingIgnoreCase(String username, Pageable pageable);
 
 }

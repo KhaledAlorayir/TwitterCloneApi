@@ -1,6 +1,6 @@
 package com.example.twitterapi.controller;
 
-import com.example.twitterapi.dto.FollowsUser;
+import com.example.twitterapi.dto.Does;
 import com.example.twitterapi.dto.Message;
 import com.example.twitterapi.dto.Pagination;
 import com.example.twitterapi.dto.UserListDTO;
@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/follow")
@@ -44,7 +42,7 @@ public class FollowController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FollowsUser> DoIFollowUser(@PathVariable long id){
+    public ResponseEntity<Does> DoIFollowUser(@PathVariable long id){
         return ResponseEntity.ok(followService.DoIFollow(id));
     }
 

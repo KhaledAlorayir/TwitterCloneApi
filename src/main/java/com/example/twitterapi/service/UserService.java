@@ -65,7 +65,7 @@ public class UserService {
         }
 
         Pageable page = PageRequest.of(page_number,PAGE_LIMIT);
-        Slice<AppUser> results = userRepo.findByUsernameContaining(usernameQuery,page);
+        Slice<AppUser> results = userRepo.findByUsernameContainingIgnoreCase(usernameQuery,page);
 
 
         List<UserListDTO> data = Arrays.asList(mapper.map(results.getContent(),UserListDTO[].class));

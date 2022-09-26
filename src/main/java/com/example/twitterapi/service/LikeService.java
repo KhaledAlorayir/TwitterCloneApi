@@ -1,9 +1,6 @@
 package com.example.twitterapi.service;
 
-import com.example.twitterapi.dto.Message;
-import com.example.twitterapi.dto.Pagination;
-import com.example.twitterapi.dto.TweetDTO;
-import com.example.twitterapi.dto.UserListDTO;
+import com.example.twitterapi.dto.*;
 import com.example.twitterapi.entity.AppUser;
 import com.example.twitterapi.entity.Like;
 import com.example.twitterapi.entity.Tweet;
@@ -86,8 +83,18 @@ public class LikeService {
         AppUser user = userRepo.findById(uid).orElseThrow(() -> new DoesntExistsException());
         Pageable page = PageRequest.of(page_number,PAGE_LIMIT);
         Slice<Like> likes = likeRepo.findByUserOrderByCreatedAtDesc(user,page);
-        List<TweetDTO> tweets = likes.stream().map(like -> tweetService.getTweetDTO(like.getTweet(),user)).collect(Collectors.toList());
+        List<TweetDTO> tweets = likes.stream().map(like -> tweetService.getTweetDTO(like.getTweet(),like.getTweet().getOwner())).collect(Collectors.toList());
         return new Pagination<>(tweets,likes.hasNext(),likes.hasPrevious(),page_number+1);
+    }
+
+    public Does DoILike(long tid) {
+        Tweet tweet = tweetRepo.findById(tid).orElseThrow(() -> new DoesntExistsException());
+        AppUser user = userRepo.getReferenceById(Helper.getAuth());
+        Optional<Like> like = likeRepo.findByUserAndTweet(user,tweet);
+        if(like.isPresent()){
+            return new Does(true);
+        }
+        return new Does(false);
     }
 
 }

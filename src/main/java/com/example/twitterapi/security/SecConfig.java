@@ -41,7 +41,7 @@ public class SecConfig {
                                 .antMatchers(HttpMethod.GET,"/api/tweet/*","/api/tweet/*/user","/api/tweet/*/replies","/api/tweet/*/original").permitAll()
                                 .antMatchers("/api/tweet","/api/tweet/**").hasAuthority("USER")
                                 .antMatchers(HttpMethod.GET,"/api/like/*","/api/like/*/user").permitAll()
-                                .antMatchers("/api/like","/api/like/*").hasAuthority("USER")
+                                .antMatchers("/api/like","/api/like/*","/api/like/does/*").hasAuthority("USER")
                                 .anyRequest().permitAll()
                                 .and()
                                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

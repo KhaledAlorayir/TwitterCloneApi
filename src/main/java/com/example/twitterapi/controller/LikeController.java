@@ -1,9 +1,6 @@
 package com.example.twitterapi.controller;
 
-import com.example.twitterapi.dto.Message;
-import com.example.twitterapi.dto.Pagination;
-import com.example.twitterapi.dto.TweetDTO;
-import com.example.twitterapi.dto.UserListDTO;
+import com.example.twitterapi.dto.*;
 import com.example.twitterapi.service.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,5 +31,10 @@ public class LikeController {
     @GetMapping("/{id}/user")
     public ResponseEntity<Pagination<TweetDTO>> getUserLikes(@PathVariable long id, @RequestParam(defaultValue = "1") int page){
         return ResponseEntity.ok(likeService.getUserLikes(id,page));
+    }
+
+    @GetMapping("/does/{id}")
+    public ResponseEntity<Does> DoesUserLikesTweet(@PathVariable long id){
+        return ResponseEntity.ok(likeService.DoILike(id));
     }
 }
