@@ -37,7 +37,7 @@ public class FollowService {
         AppUser to = userRepo.findById(uid).orElseThrow(() -> new DoesntExistsException());
         AppUser from = userRepo.getReferenceById(Helper.getAuth());
 
-        if(uid == Helper.getAuth()){
+        if(Helper.getAuth().equals(uid)){
             throw new FollowSelfException();
         }
 

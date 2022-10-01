@@ -42,7 +42,8 @@ public class TweetService {
     public Message deleteTweet(long tweetId){
         Tweet tweet = tweetRepo.findById(tweetId).orElseThrow(() -> new DoesntExistsException());
 
-        if(tweet.getOwner().getId() != Helper.getAuth()){
+        if(!tweet.getOwner().getId().equals(Helper.getAuth())){
+            System.out.println("here");
             throw new unAuthorizedException();
         }
 
