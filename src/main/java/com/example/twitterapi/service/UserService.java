@@ -116,6 +116,7 @@ public class UserService {
             throw new RuntimeException(e);
         }
         user.setImg_url("http://localhost:8080/api/user/img/"+fileName);
+        userRepo.save(user);
         return getUserDTO(user);
     }
 
